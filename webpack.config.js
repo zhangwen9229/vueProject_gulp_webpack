@@ -1,5 +1,6 @@
 var path = require('path'),
-	webpack = require('webpack');
+	webpack = require('webpack'),
+	HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // PATHS
 var PATHS = {
@@ -13,7 +14,11 @@ module.exports = {
 	context: PATHS.app,
 	resolve: {
 		// 现在可以写 require('file') 代替 require('file.js')
-		extensions: ['', '.js', '.json', '.vue']
+		extensions: ['', '.js', '.json', '.vue'],
+		// fallback: [path.join(__dirname, './node_modules')],
+		// alias: {
+		// 	'src': path.resolve(__dirname, './src'),
+		// }
 	},
 	module: {
 		loaders: [{
@@ -39,8 +44,17 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoErrorsPlugin(),
 		// uncomment for production. comment out during dev
-		new webpack.optimize.UglifyJsPlugin({
-			mangle: false
+		// new webpack.optimize.UglifyJsPlugin({
+		// 	mangle: false,
+		// 	compress: {
+		// 		warnings: false
+		// 	}
+		// }),
+		// https://github.com/ampedandwired/html-webpack-plugin
+		new HtmlWebpackPlugin({
+			filename: 'index.html',
+			template: path.join(__dirname, 'index.html'),
+			inject: true
 		})
 	],
 	devtool: 'sourcemap',
