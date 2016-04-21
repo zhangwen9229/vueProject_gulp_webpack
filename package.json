@@ -27,6 +27,7 @@
     "gulp-util": "^3.0.7",
     "html-webpack-plugin": "^2.16.0",
     "raw-loader": "^0.5.1",
+    "vue": "^1.0.21",
     "webpack-dev-server": "^1.14.1",
     "webpack-stream": "^3.1.0"
   }
