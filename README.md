@@ -1,7 +1,7 @@
 # vueProject_gulp_webpack
 
-Debug:
+Debug:<br>
   Exec:  gulp
-  
-Publish:
+  <br>
+Publish:<br>
   Exec: gulp init
