@@ -1,12 +1,14 @@
 var path = require('path'),
 	webpack = require('webpack'),
-	HtmlWebpackPlugin = require('html-webpack-plugin');
+	HtmlWebpackPlugin = require('html-webpack-plugin'),
+	ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // PATHS
 var PATHS = {
 	app: __dirname,
 	publicPath: __dirname + '/dist/',
-	bower: __dirname + '/bower_components'
+	bower: __dirname + '/bower_components',
+	templateurl : './src/index.html'
 };
 
 module.exports = {
@@ -23,7 +25,7 @@ module.exports = {
 	module: {
 		loaders: [{
 			test: /\.css$/,
-			loader: "style!css?sourceMap"
+			loader: ExtractTextPlugin.extract("style-loader","css?sourceMap","autoprefixer-loader")
 		}, {
 			test: /\.js$/,
 			loader: 'babel',
@@ -43,6 +45,11 @@ module.exports = {
 		new webpack.optimize.DedupePlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoErrorsPlugin(),
+		new ExtractTextPlugin("[name].[contenthash].css"),
+		new webpack.optimize.CommonsChunkPlugin({
+			name:"vendors",
+			filename:"vendors.js"
+		}),
 		// uncomment for production. comment out during dev
 		// new webpack.optimize.UglifyJsPlugin({
 		// 	mangle: false,
@@ -53,17 +60,17 @@ module.exports = {
 		// https://github.com/ampedandwired/html-webpack-plugin
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			template: path.join(__dirname, 'index.html'),
+			template: PATHS.templateurl,
 			inject: true
 		})
 	],
 	devtool: 'sourcemap',
-	devServer: {
-		historyApiFallback: true,
-		stats: {
-			chunkModules: false,
-			colors: true
-		},
-		contentBase: __dirname
-	}
+	// devServer: {
+	// 	historyApiFallback: true,
+	// 	stats: {
+	// 		chunkModules: false,
+	// 		colors: true
+	// 	},
+	// 	contentBase: PATHS.app
+	// }
 };
