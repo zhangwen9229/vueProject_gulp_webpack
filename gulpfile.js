@@ -21,7 +21,7 @@ gulp.task("webpack-dev-server", function(callback) {
   // var myConfig = Object.create(getConfig());
   // myConfig.devtool = "eval";
   // myConfig.debug = true;
-  appList.unshift("webpack-dev-server/client?http://localhost:9000/", "webpack/hot/only-dev-server");
+  appList.unshift("webpack-dev-server/client?http://localhost:9000/", "webpack/hot/dev-server");
   // Start a webpack-dev-server
   new WebpackDevServer(webpack(getConfig({
     // cache: true,
@@ -62,9 +62,12 @@ gulp.task("webpack-dev-server", function(callback) {
         chunkModules: false,
         colors: true
       },
-      contentBase: "/"
+      contentBase: publicPath,
+      open:true
     }
   })), {
+    hot:true,
+    inline:true,
     publicPath:"/" ,
     stats: {
       colors: true
