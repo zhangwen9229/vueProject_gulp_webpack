@@ -16,7 +16,7 @@ var MyComponent = Vue.extend({
   template: template,
   data(){
   	return {
-  		viewName:"list in appj1"
+  		viewName:"list in appj55"
   	}
   }
 })

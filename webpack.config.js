@@ -32,7 +32,7 @@ module.exports = {
 			// exclude: /node_modules|bower_components/
 		}, {
 			test: /\.html$/,
-			loader: 'raw'
+			loader: 'html'
 		}, {
 			test: /\.(png|jpg|woff|woff2|eot|ttf|svg)$/,
 			loader: 'url-loader?limit=8192'
@@ -46,6 +46,7 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoErrorsPlugin(),
 		new ExtractTextPlugin("[name].css?[contenthash]"),
+		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.CommonsChunkPlugin({
 			name:"vendors",
 			filename:"vendors.js"
