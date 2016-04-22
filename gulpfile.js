@@ -4,6 +4,7 @@ var path = require("path");
 var named = require('vinyl-named');
 var clean = require('gulp-clean');
 var gutil = require("gulp-util");
+var open = require('gulp-open');
 var WebpackDevServer = require("webpack-dev-server");
 var webpack = require("webpack"),
   HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -12,7 +13,7 @@ var publicPath =  path.resolve(__dirname, '/dist/');
 
 var appList = ['./src/app.js'];
 
-gulp.task('default', [ "webpack-dev-server"], function() {
+gulp.task('default', [ "webpack-dev-server",'uri'], function() {
 
 });
 
@@ -38,24 +39,6 @@ gulp.task("webpack-dev-server", function(callback) {
       path: publicPath,
       filename: '[name].js',
     },
-    // plugins: [
-    //  new webpack.optimize.DedupePlugin(),
-    //  new webpack.HotModuleReplacementPlugin(),
-    //  new webpack.NoErrorsPlugin(),
-    //  // uncomment for production. comment out during dev
-    //  // new webpack.optimize.UglifyJsPlugin({
-    //  //  mangle: false,
-    //  //  compress: {
-    //  //    warnings: false
-    //  //  }
-    //  // }),
-    //  // https://github.com/ampedandwired/html-webpack-plugin
-    //  new HtmlWebpackPlugin({
-    //    filename: 'index.html',
-    //    template: templateurl,
-    //    inject: true
-    //  })
-    // ],
     devServer: {
       historyApiFallback: true,
       stats: {
@@ -105,6 +88,11 @@ gulp.task('webpack', function(cb) {
   //  }))
   //  .pipe(gulp.dest('dist/'));
 })
+
+gulp.task('uri', function(){
+  gulp.src(__filename)
+  .pipe(open({uri: 'http://127.0.0.1:9000'}));
+});
 
 gulp.task('clean-scripts', function() {
   return gulp.src('dist/*.*', {
