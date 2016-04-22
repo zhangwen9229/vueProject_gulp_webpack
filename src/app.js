@@ -10,6 +10,7 @@ import Router from 'vue-router'
 import App from './components/App.vue'
 import ListView from './components/ListView.vue'
 // var test = require('./views/ListView')
+import testview from './views/ListView'
 
 var template = require('./components/test.html');
 var MyComponent = Vue.extend({
@@ -32,7 +33,7 @@ router.map({
 		component: ListView
 	},
 	'/test': {
-		component: MyComponent
+		component: testview
 	}
 })
 

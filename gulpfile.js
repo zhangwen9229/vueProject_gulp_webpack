@@ -27,7 +27,7 @@ gulp.task("webpack-dev-server", function(callback) {
 		// cache: true,
 		// debug: true,
 	//         lazy: false,
-		// watch:true,
+		watch:true,
 		entry: {
 			app: appList,
 			vendors:[
