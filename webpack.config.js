@@ -38,14 +38,14 @@ module.exports = {
 			loader: 'url-loader?limit=8192'
 		}, {
 			test: /\.vue$/,
-			loader: 'vue-loader'
+			loader: 'vue'
 		}, ]
 	},
 	plugins: [
 		new webpack.optimize.DedupePlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoErrorsPlugin(),
-		new ExtractTextPlugin("[name].[contenthash].css"),
+		new ExtractTextPlugin("[name].css?[contenthash]"),
 		new webpack.optimize.CommonsChunkPlugin({
 			name:"vendors",
 			filename:"vendors.js"
@@ -65,6 +65,10 @@ module.exports = {
 		})
 	],
 	devtool: 'sourcemap',
+	babel:{
+		presets:['es2015','stage-0'],
+		// plugins:['transform-runtime']
+	}
 	// devServer: {
 	// 	historyApiFallback: true,
 	// 	stats: {

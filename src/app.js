@@ -2,14 +2,24 @@
 // var Router = require("vue-router");
 require('./style/animate.css')
 require('./style/style.css')
-// require("./javascripts/test")
+	// require("./javascripts/test")
 
-
-import Vue from 'vue'
+var Vue = require("vue")
 import Router from 'vue-router'
 // import { domain, fromNow } from './filters'
-var App =  require('./components/App.vue')
+import App from './components/App.vue'
 import ListView from './components/ListView.vue'
+// var test = require('./views/ListView')
+
+var template = require('./components/test.html');
+var MyComponent = Vue.extend({
+  template: template,
+  data(){
+  	return {
+  		viewName:"list in appj1"
+  	}
+  }
+})
 
 // install router
 Vue.use(Router)
@@ -18,8 +28,11 @@ Vue.use(Router)
 var router = new Router()
 
 router.map({
-	'/ListView':{
-		component:ListView
+	'/ListView': {
+		component: ListView
+	},
+	'/test': {
+		component: MyComponent
 	}
 })
 
