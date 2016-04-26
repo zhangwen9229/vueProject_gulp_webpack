@@ -7,13 +7,14 @@ var gutil = require("gulp-util");
 var open = require('gulp-open');
 var WebpackDevServer = require("webpack-dev-server");
 var webpack = require("webpack"),
-	HtmlWebpackPlugin = require('html-webpack-plugin');
+	HtmlWebpackPlugin = require('html-webpack-plugin'),
+	ExtractTextPlugin = require('extract-text-webpack-plugin');
 var templateurl = "./src/index.html";
-var publicPath =  path.resolve(__dirname, '/dist/');
+var publicPath = path.resolve(__dirname, '/dist/');
 
 var appList = ['./src/app.js'];
 
-gulp.task('default', [ "webpack-dev-server",'uri'], function() {
+gulp.task('default', ["webpack-dev-server", 'uri'], function() {
 
 });
 
@@ -26,11 +27,11 @@ gulp.task("webpack-dev-server", function(callback) {
 	var compiler = webpack(getConfig({
 		// cache: true,
 		// debug: true,
-	//         lazy: false,
-		watch:true,
+		//         lazy: false,
+		watch: true,
 		entry: {
 			app: appList,
-			vendors:[
+			vendors: [
 				'vue-router'
 			]
 		},
@@ -45,15 +46,15 @@ gulp.task("webpack-dev-server", function(callback) {
 				colors: true
 			},
 			contentBase: publicPath,
-			open:true
+			open: true
 		}
-	}));
+	}, true));
 	// var hotMiddleware = require('webpack-hot-middleware')(compiler);
 	// Start a webpack-dev-server
 	new WebpackDevServer(compiler, {
-		hot:true,
-		inline:true,
-		publicPath:"/" ,
+		hot: true,
+		inline: true,
+		publicPath: "/",
 		stats: {
 			colors: true
 		}
@@ -75,10 +76,11 @@ gulp.task('webpack', function(cb) {
 		.pipe(wstream(getConfig({
 			// watch: true,
 			devtool: 'source-map',
-				entry: {
-					app:appList,
-					vendors:[
-					'vue-router'
+			entry: {
+				app: appList,
+				vendors: [
+					'vue-router',
+					'vue'
 				]
 			},
 		})))
@@ -96,9 +98,11 @@ gulp.task('webpack', function(cb) {
 	//  .pipe(gulp.dest('dist/'));
 })
 
-gulp.task('uri', function(){
+gulp.task('uri', function() {
 	gulp.src(__filename)
-	.pipe(open({uri: 'http://127.0.0.1:9000'}));
+		.pipe(open({
+			uri: 'http://127.0.0.1:9000'
+		}));
 });
 
 gulp.task('clean-scripts', function() {
@@ -109,45 +113,28 @@ gulp.task('clean-scripts', function() {
 });
 
 
-gulp.task('init', ['clean-scripts','webpack'],function() {
-	
+gulp.task('init', ['clean-scripts', 'webpack'], function() {
+
 })
 
 /**
  * @private
  *  获取配置文件
  */
-function getConfig(opt) {
+function getConfig(opt, dev) {
 
 	var config = require("./webpack.config.js");
-	// console.log(JSON.stringify(config));
-	// var config = {
-	//  module: {
-	//    loaders: [{
-	//      test: /\.css$/,
-	//      loader: 'style-loader!css-loader'
-	//    }, {
-	//      test: /\.styl$/,
-	//      loader: 'style-loader!css-loader!stylus-loader'
-	//    }, {
-	//      //图片文件使用 url-loader 来处理，小于8kb的直接转为base64
-	//      test: /\.(png|jpg)$/,
-	//      loader: 'url-loader?limit=8192!file-loader?name=img/[hash].[ext]'
-	//    }, {
-	//      test: /\.vue$/,
-	//      loader: 'vue-loader'
-	//    }, {
-	//      test: /\.js$/,
-	//      loader: 'babel'
-	//    }]
-	//  }
-	// }
 
 	if (!opt) {
 		return config;
 	}
 	for (var i in opt) {
 		config[i] = opt[i];
+	}
+	if (dev) {
+		config['plugins'].push(new webpack.optimize.DedupePlugin());
+		config['plugins'].push(new webpack.HotModuleReplacementPlugin());
+		config['plugins'].push(new webpack.NoErrorsPlugin());
 	}
 	return config;
 }
