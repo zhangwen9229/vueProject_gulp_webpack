@@ -3,6 +3,8 @@ var path = require('path'),
 	HtmlWebpackPlugin = require('html-webpack-plugin'),
 	ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var appList = ['./src/app.js',"webpack-dev-server/client?http://localhost:9000/", "webpack/hot/dev-server"];
+
 // PATHS
 var PATHS = {
 	app: __dirname,
@@ -16,11 +18,22 @@ module.exports = {
 	context: PATHS.app,
 	resolve: {
 		// 现在可以写 require('file') 代替 require('file.js')
-		extensions: ['', '.js', '.json', '.vue'],
+		extensions: ['', '.js', '.json', '.vue', '.css'],
 		// fallback: [path.join(__dirname, './node_modules')],
 		// alias: {
-		// 	'src': path.resolve(__dirname, './src'),
+		//  'src': path.resolve(__dirname, './src'),
 		// }
+	},
+	entry: {
+		app: appList,
+		vendors: [
+			'vue-router',
+			'vue'
+		]
+	},
+	output: {
+		path: PATHS.publicPath,
+		filename: '[name].[chunkhash:7].js',
 	},
 	module: {
 		loaders: [{
@@ -34,8 +47,11 @@ module.exports = {
 			test: /\.html$/,
 			loader: 'html'
 		}, {
-			test: /\.(png|jpg|woff|woff2|eot|ttf|svg)$/,
+			test: /\.(png|jpg)$/,
 			loader: 'url-loader?limit=8192'
+		}, {
+			test: /\.(woff|woff2|eot|ttf|svg)$/,
+			loader: 'url-loader'
 		}, {
 			test: /\.vue$/,
 			loader: 'vue'
@@ -45,11 +61,11 @@ module.exports = {
 		// new webpack.optimize.DedupePlugin(),
 		// new webpack.HotModuleReplacementPlugin(),
 		// new webpack.NoErrorsPlugin(),
-		new ExtractTextPlugin("[name].[contenthash].css"),
+		new ExtractTextPlugin("[name].[contenthash:7].css"),
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: "vendors",
-			filename: "vendors.js"
+			filename: "vendors.[hash:7].js"
 		}),
 		// uncomment for production. comment out during dev
 		new webpack.optimize.UglifyJsPlugin({
@@ -65,17 +81,8 @@ module.exports = {
 		})
 	],
 	// publish:true,
-	devtool: 'sourcemap',
 	babel: {
 		presets: ['es2015', 'stage-0'],
 		// plugins:['transform-runtime']
 	}
-	// devServer: {
-	// 	historyApiFallback: true,
-	// 	stats: {
-	// 		chunkModules: false,
-	// 		colors: true
-	// 	},
-	// 	contentBase: PATHS.app
-	// }
 };

@@ -1,8 +1,6 @@
-// var Vue = require('vue') ;
-// var Router = require("vue-router");
+require('normalize.css')
 require('./style/animate.css')
-require('./style/style.css')
-	// require("./javascripts/test")
+
 
 var Vue = require("vue")
 import Router from 'vue-router'
@@ -10,14 +8,16 @@ import Router from 'vue-router'
 import App from './components/App.vue'
 import ListView from './components/ListView.vue'
 Vue.transition('trans', {
-  enterClass: 'bounceInRight',
-  leaveClass: 'bounceOutRight'
-})
-// install router
+		enterClass: 'slideInRight',
+		leaveClass: 'slideOutRight'
+	})
+	// install router
 Vue.use(Router)
 
 // routing
-var router = new Router({transitionOnLoad: false})
+var router = new Router({
+	transitionOnLoad: false
+})
 
 router.map({
 	'/ListView': {

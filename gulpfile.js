@@ -12,7 +12,7 @@ var webpack = require("webpack"),
 var templateurl = "./src/index.html";
 var publicPath = path.resolve(__dirname, '/dist/');
 
-var appList = ['./src/app.js'];
+
 
 gulp.task('default', ["webpack-dev-server", 'uri'], function() {
 
@@ -21,24 +21,13 @@ gulp.task('default', ["webpack-dev-server", 'uri'], function() {
 gulp.task("webpack-dev-server", function(callback) {
 	// modify some webpack config options
 	// var myConfig = Object.create(getConfig());
-	// myConfig.devtool = "eval";
-	// myConfig.debug = true;
-	appList.unshift("webpack-dev-server/client?http://localhost:9000/", "webpack/hot/dev-server");
+
 	var compiler = webpack(getConfig({
 		// cache: true,
 		// debug: true,
 		//         lazy: false,
 		watch: true,
-		entry: {
-			app: appList,
-			vendors: [
-				'vue-router'
-			]
-		},
-		output: {
-			path: publicPath,
-			filename: '[name].js',
-		},
+		devtool: 'sourcemap',
 		devServer: {
 			historyApiFallback: true,
 			stats: {
@@ -71,18 +60,18 @@ gulp.task("webpack-dev-server", function(callback) {
 });
 
 gulp.task('webpack', function(cb) {
-	return gulp.src(appList)
+	return gulp.src("./src/app.js")
 		.pipe(named())
 		.pipe(wstream(getConfig({
 			// watch: true,
-			devtool: 'source-map',
-			entry: {
-				app: appList,
-				vendors: [
-					'vue-router',
-					'vue'
-				]
-			},
+			// devtool: 'source-map',
+			// entry: {
+			// 	app: appList,
+			// 	vendors: [
+			// 		'vue-router',
+			// 		'vue'
+			// 	]
+			// },
 		})))
 		.pipe(gulp.dest('dist'));
 	// return gulp.src('src/app.js')
@@ -132,6 +121,7 @@ function getConfig(opt, dev) {
 		config[i] = opt[i];
 	}
 	if (dev) {
+		// config['entry']["app"].unshift("webpack-dev-server/client?http://localhost:9000/", "webpack/hot/dev-server");
 		config['plugins'].push(new webpack.optimize.DedupePlugin());
 		config['plugins'].push(new webpack.HotModuleReplacementPlugin());
 		config['plugins'].push(new webpack.NoErrorsPlugin());

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "normalize.css": "^4.1.1",
     "vue": "^1.0.21",
     "vue-router": "^0.7.13"
   },
