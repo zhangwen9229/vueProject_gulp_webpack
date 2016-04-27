@@ -28,7 +28,8 @@ module.exports = {
 		app: appList,
 		vendors: [
 			'vue-router',
-			'vue'
+			'vue',
+			'./src/lib/lib-flexible/flexible.js'
 		]
 	},
 	output: {

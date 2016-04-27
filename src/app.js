@@ -1,5 +1,7 @@
 require('normalize.css')
 require('./style/animate.css')
+require('./lib/lib-flexible/flexible.css')
+require('./lib/lib-flexible/flexible.js')
 
 
 var Vue = require("vue")
