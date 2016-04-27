@@ -8,7 +8,7 @@ var PATHS = {
 	app: __dirname,
 	publicPath: __dirname + '/dist/',
 	bower: __dirname + '/bower_components',
-	templateurl : './src/index.html'
+	templateurl: './src/index.html'
 };
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
 	module: {
 		loaders: [{
 			test: /\.css$/,
-			loader: ExtractTextPlugin.extract("style-loader","css?sourceMap","autoprefixer-loader")
+			loader: ExtractTextPlugin.extract("style-loader", "css?sourceMap", "autoprefixer-loader")
 		}, {
 			test: /\.js$/,
 			loader: 'babel',
@@ -42,22 +42,21 @@ module.exports = {
 		}, ]
 	},
 	plugins: [
-		new webpack.optimize.DedupePlugin(),
-		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NoErrorsPlugin(),
-		new ExtractTextPlugin("[name].css?[contenthash]"),
+		// new webpack.optimize.DedupePlugin(),
+		// new webpack.HotModuleReplacementPlugin(),
+		// new webpack.NoErrorsPlugin(),
+		new ExtractTextPlugin("[name].[contenthash].css"),
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.CommonsChunkPlugin({
-			name:"vendors",
-			filename:"vendors.js"
+			name: "vendors",
+			filename: "vendors.js"
 		}),
 		// uncomment for production. comment out during dev
-		// new webpack.optimize.UglifyJsPlugin({
-		// 	mangle: false,
-		// 	compress: {
-		// 		warnings: false
-		// 	}
-		// }),
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false
+			}
+		}),
 		// https://github.com/ampedandwired/html-webpack-plugin
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
@@ -65,9 +64,10 @@ module.exports = {
 			inject: true
 		})
 	],
+	// publish:true,
 	devtool: 'sourcemap',
-	babel:{
-		presets:['es2015','stage-0'],
+	babel: {
+		presets: ['es2015', 'stage-0'],
 		// plugins:['transform-runtime']
 	}
 	// devServer: {
