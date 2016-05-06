@@ -19,29 +19,14 @@ gulp.task('default', ["webpack-dev-server", 'uri'], function() {
 });
 
 gulp.task("webpack-dev-server", function(callback) {
-	// modify some webpack config options
-	// var myConfig = Object.create(getConfig());
-
 	var compiler = webpack(getConfig({
-		// cache: true,
-		// debug: true,
-		//         lazy: false,
-		watch: true,
-		devtool: 'sourcemap',
-		devServer: {
-			historyApiFallback: true,
-			stats: {
-				chunkModules: false,
-				colors: true
-			},
-			contentBase: publicPath,
-			open: true
-		}
+		cache: true,
+		debug: true,
+		lazy: false,
+		watch: true
 	}, true));
-	// var hotMiddleware = require('webpack-hot-middleware')(compiler);
 	// Start a webpack-dev-server
 	new WebpackDevServer(compiler, {
-		hot: true,
 		inline: true,
 		publicPath: "/",
 		stats: {
@@ -50,11 +35,6 @@ gulp.task("webpack-dev-server", function(callback) {
 	}).listen(9000, "localhost", function(err) {
 		if (err) throw new gutil.PluginError("webpack-dev-server", err);
 		gutil.log("[webpack-dev-server]", "http://localhost:9000/webpack-dev-server/index.html");
-		// compiler.plugin('compilation',function(compilation){
-		// 	compilation.plugin('html-webpack-plugin-after-emit'),function(data,cb){
-		// 		hotMiddleware.publish({action:"reload"});
-		// 	}
-		// })
 		callback();
 	});
 });
@@ -62,17 +42,7 @@ gulp.task("webpack-dev-server", function(callback) {
 gulp.task('webpack', function(cb) {
 	return gulp.src("./src/app.js")
 		.pipe(named())
-		.pipe(wstream(getConfig({
-			// watch: true,
-			// devtool: 'source-map',
-			// entry: {
-			// 	app: appList,
-			// 	vendors: [
-			// 		'vue-router',
-			// 		'vue'
-			// 	]
-			// },
-		})))
+		.pipe(wstream(getConfig()))
 		.pipe(gulp.dest('dist'));
 	// return gulp.src('src/app.js')
 	//  .pipe(webpack({

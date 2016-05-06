@@ -3,7 +3,7 @@ var path = require('path'),
 	HtmlWebpackPlugin = require('html-webpack-plugin'),
 	ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var appList = ['./src/app.js',"webpack-dev-server/client?http://localhost:9000/", "webpack/hot/dev-server"];
+var appList = ['./src/app.js', "webpack-dev-server/client?http://localhost:9000/", "webpack/hot/dev-server"];
 
 // PATHS
 var PATHS = {
@@ -85,5 +85,15 @@ module.exports = {
 	babel: {
 		presets: ['es2015', 'stage-0'],
 		// plugins:['transform-runtime']
+	},
+	devtool: 'sourcemap',
+	devServer: {
+		hot: true,
+		historyApiFallback: true,
+		stats: {
+			chunkModules: false,
+			colors: true
+		},
+		contentBase: PATHS.publicPath
 	}
 };
