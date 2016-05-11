@@ -85,15 +85,5 @@ module.exports = {
 	babel: {
 		presets: ['es2015', 'stage-0'],
 		// plugins:['transform-runtime']
-	},
-	devtool: 'sourcemap',
-	devServer: {
-		hot: true,
-		historyApiFallback: true,
-		stats: {
-			chunkModules: false,
-			colors: true
-		},
-		contentBase: PATHS.publicPath
 	}
 };

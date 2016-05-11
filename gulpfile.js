@@ -23,7 +23,17 @@ gulp.task("webpack-dev-server", function(callback) {
 		cache: true,
 		debug: true,
 		lazy: false,
-		watch: true
+		watch: true,
+		devtool: 'source-map',
+		devServer: {
+			hot: true,
+			historyApiFallback: true,
+			stats: {
+				chunkModules: false,
+				colors: true
+			},
+			contentBase: publicPath
+		}
 	}, true));
 	// Start a webpack-dev-server
 	new WebpackDevServer(compiler, {
