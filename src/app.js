@@ -19,39 +19,9 @@ Vue.transition('trans', {
 	leaveClass: 'slideOutRight'
 })
 
-Vue.transition('expand', {
-	css: false,
-	beforeEnter: function(el) {
-		$(el).removeClass("slideOutLeft").addClass("slideInRight");
-	},
-	enter: function(el) {
+fn_SetVueTransform();
 
-	},
-	afterEnter: function(el) {
-
-	},
-	enterCancelled: function(el) {
-		// handle cancellation
-	},
-
-	beforeLeave: function(el) {},
-	leave: function(el, done) {
-		$(el).removeClass("slideInRight").addClass("slideOutLeft");
-		// $(el).animate({ opacity: 0 }, 1000, done)
-		setTimeout(function() {
-			done();
-		}, 800)
-
-	},
-	afterLeave: function(el) {
-
-	},
-	leaveCancelled: function(el) {
-		// handle cancellation
-	}
-})
-
-var g_uri_stack = ["/"];
+var g_uri_stack = [];
 
 // install router
 Vue.use(Router)
@@ -60,24 +30,12 @@ var router = new Router({
 })
 
 router.afterEach(function(transition) {
-	var toPath = transition.to.path;
-	if ($.inArray(toPath, g_uri_stack) == g_uri_stack.length - 1) {
+	console.log(3)
+	var toPath = transition.to.path,
+		index = $.inArray(toPath, g_uri_stack);
+	if (index != -1 && index == g_uri_stack.length - 2) {
 		g_uri_stack.pop();
-		Vue.transition('expand', {
-			css: false,
-			beforeEnter: function(el) {
-				$(el).removeClass("slideOutRight").addClass("slideInLeft");
-			},
-			beforeLeave: function(el) {},
-			leave: function(el, done) {
-				$(el).removeClass("slideInLeft").addClass("slideOutRight");
-				// $(el).animate({ opacity: 0 }, 1000, done)
-				setTimeout(function() {
-					done();
-				}, 800)
-
-			}
-		})
+		// fn_SetVueTransform(true);
 	}
 	console.log('成功浏览到: ' + transition.to.path)
 	g_uri_stack.push(toPath)
@@ -104,3 +62,46 @@ router.map({
 })
 
 router.start(App, '#app')
+
+//动态设置transition
+function fn_SetVueTransform(isBack) {
+	Vue.transition('expand', {
+		css: false,
+		beforeEnter: function(el) {
+			if (isBack) {
+				$(el).removeClass("slideOutRight").addClass("slideInLeft");
+			} else {
+				$(el).removeClass("slideOutLeft").addClass("slideInRight");
+			}
+		},
+		enter: function(el) {
+
+		},
+		afterEnter: function(el) {
+
+		},
+		enterCancelled: function(el) {
+			// handle cancellation
+		},
+
+		beforeLeave: function(el) {
+			if (isBack) {
+				$(el).removeClass("slideInLeft").addClass("slideOutRight");
+			} else {
+				$(el).removeClass("slideInRight").addClass("slideOutLeft");
+			}
+			// $(el).animate({ opacity: 0 }, 1000, done)
+		},
+		leave: function(el, done) {
+			setTimeout(function() {
+				done();
+			}, 800)
+		},
+		afterLeave: function(el) {
+
+		},
+		leaveCancelled: function(el) {
+			// handle cancellation
+		}
+	})
+}

@@ -24,7 +24,7 @@ gulp.task("webpack-dev-server", function(callback) {
 		debug: true,
 		lazy: false,
 		watch: true,
-		devtool: '#inline-source-map',
+		devtool: 'source-map',
 	}, true));
 	// Start a webpack-dev-server
 	new WebpackDevServer(compiler, {
@@ -35,7 +35,7 @@ gulp.task("webpack-dev-server", function(callback) {
 		// },
 		hot: true,
 		historyApiFallback: true,
-		progress:true,
+		progress: true,
 		stats: {
 			chunkModules: false,
 			colors: true
@@ -105,6 +105,13 @@ function getConfig(opt, dev) {
 		config['plugins'].push(new webpack.optimize.DedupePlugin());
 		config['plugins'].push(new webpack.HotModuleReplacementPlugin());
 		config['plugins'].push(new webpack.NoErrorsPlugin());
+	} else {
+		// uncomment for production. comment out during dev
+		config['plugins'].push(new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false
+			}
+		}));
 	}
 	return config;
 }

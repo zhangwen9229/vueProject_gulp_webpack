@@ -69,12 +69,6 @@ module.exports = {
 			name: "vendors",
 			filename: "vendors.[hash:7].js"
 		}),
-		// uncomment for production. comment out during dev
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false
-			}
-		}),
 		// https://github.com/ampedandwired/html-webpack-plugin
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
