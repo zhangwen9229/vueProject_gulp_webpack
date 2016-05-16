@@ -24,24 +24,24 @@ gulp.task("webpack-dev-server", function(callback) {
 		debug: true,
 		lazy: false,
 		watch: true,
-		devtool: 'source-map',
-		devServer: {
-			hot: true,
-			historyApiFallback: true,
-			stats: {
-				chunkModules: false,
-				colors: true
-			},
-			contentBase: publicPath
-		}
+		devtool: '#inline-source-map',
 	}, true));
 	// Start a webpack-dev-server
 	new WebpackDevServer(compiler, {
 		inline: true,
 		publicPath: "/",
+		// stats: {
+		// 	colors: true
+		// },
+		hot: true,
+		historyApiFallback: true,
+		progress:true,
 		stats: {
+			chunkModules: false,
 			colors: true
-		}
+		},
+		contentBase: publicPath
+
 	}).listen(9000, "localhost", function(err) {
 		if (err) throw new gutil.PluginError("webpack-dev-server", err);
 		gutil.log("[webpack-dev-server]", "http://localhost:9000/webpack-dev-server/index.html");

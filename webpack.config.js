@@ -20,7 +20,7 @@ module.exports = {
 		// 现在可以写 require('file') 代替 require('file.js')
 		extensions: ['', '.js', '.json', '.vue', '.css'],
 		// fallback: [path.join(__dirname, './node_modules')],
-		// alias: {
+		// alias: {)$/,
 		//  'src': path.resolve(__dirname, './src'),
 		// }
 	},
@@ -42,8 +42,9 @@ module.exports = {
 			loader: ExtractTextPlugin.extract("style-loader", "css?sourceMap", "autoprefixer-loader")
 		}, {
 			test: /\.js$/,
-			loader: 'babel',
-			// exclude: /node_modules|bower_components/
+			loader: "babel-loader",
+			include: [path.resolve(__dirname, "src")]
+				// exclude: /node_modules|bower_components/
 		}, {
 			test: /\.html$/,
 			loader: 'html'
@@ -82,8 +83,8 @@ module.exports = {
 		})
 	],
 	// publish:true,
-	babel: {
-		presets: ['es2015', 'stage-0'],
-		// plugins:['transform-runtime']
-	}
+	// babel: {
+	// 	presets: ['es2015', 'stage-0'],
+	// 	plugins:['transform-runtime']
+	// }
 };

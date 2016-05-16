@@ -38,10 +38,10 @@ Vue.transition('expand', {
 	leave: function(el, done) {
 		$(el).removeClass("slideInRight").addClass("slideOutLeft");
 		// $(el).animate({ opacity: 0 }, 1000, done)
-		setTimeout(function(){
+		setTimeout(function() {
 			done();
-		},800)
-		
+		}, 800)
+
 	},
 	afterLeave: function(el) {
 
@@ -51,6 +51,8 @@ Vue.transition('expand', {
 	}
 })
 
+var g_uri_stack = ["/"];
+
 // install router
 Vue.use(Router)
 var router = new Router({
@@ -58,11 +60,30 @@ var router = new Router({
 })
 
 router.afterEach(function(transition) {
-		// com.jugeStyle();
-		console.log('成功浏览到: ' + transition.to.path)
-	})
-	// routing
+	var toPath = transition.to.path;
+	if ($.inArray(toPath, g_uri_stack) == g_uri_stack.length - 1) {
+		g_uri_stack.pop();
+		Vue.transition('expand', {
+			css: false,
+			beforeEnter: function(el) {
+				$(el).removeClass("slideOutRight").addClass("slideInLeft");
+			},
+			beforeLeave: function(el) {},
+			leave: function(el, done) {
+				$(el).removeClass("slideInLeft").addClass("slideOutRight");
+				// $(el).animate({ opacity: 0 }, 1000, done)
+				setTimeout(function() {
+					done();
+				}, 800)
 
+			}
+		})
+	}
+	console.log('成功浏览到: ' + transition.to.path)
+	g_uri_stack.push(toPath)
+})
+
+// routing
 router.map({
 	'/': {
 		component: HomePage,
