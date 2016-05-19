@@ -1,0 +1,22 @@
+body{
+	/*background: red;*/
+	/*color: #fff;*/
+	text-align: center;
+	font-size: 24px;
+}
+
+.animated {
+  -webkit-animation-duration: .3s;
+  animation-duration: .3s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+a{text-decoration: none;}
+
+.appheader{position: absolute;top: 0;z-index: 999;width: 100%;height: 1.173333rem;border-bottom: 1px solid #d12b2b;background: #ff4544}
+.iosheader{height: 1.733333rem !important;}
+.appcontent{position: absolute;top: 0;bottom: 0;border-top:1.2rem solid transparent;border-bottom: 1.4rem solid transparent; width: 100%;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+.ioscontent{border-top: 1.733333rem solid transparent !important;}
+.appbottom{position: absolute;bottom: 0;z-index: 999;border-top: 1px solid #d2d2d2;width: 100%;height: 1.386667rem;}
+.rootcontent{position: absolute;top: 0;width: 100%}

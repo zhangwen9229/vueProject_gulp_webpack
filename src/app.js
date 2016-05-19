@@ -1,5 +1,6 @@
 require('normalize.css')
-require('./style/animate.css')
+require('./style/common/animate.css')
+require('./style/common/weui.css')
 require('./lib/lib-flexible/flexible.css')
 require('./lib/lib-flexible/flexible.js')
 require('./lib/zepto/zepto.min.js')
