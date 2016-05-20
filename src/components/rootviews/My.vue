@@ -15,19 +15,15 @@
 	 		}
 		  },
 		  route:{
-			 canDeactivate:function(){
-		    		console.log(1)    		
-				// this.transition = "trans";
+			 canDeactivate:function(){	
 			      return true;
 			 },
-		    	deactivate: function (transition) {		
-		    		console.log(2)    		
-				// this.transition = "trans";
+		    	deactivate: function (transition) {	
 			      transition.next()
 		      }
 	      },
 	      beforeDestroy(){
-	      		console.log("beforeDestroy");
+	      		// console.log("beforeDestroy");
 	      		// Vue.fn_SetVueTransform(true)
 	      }
 	}

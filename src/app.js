@@ -52,7 +52,6 @@ Vue.transition('expand', {
 
 	beforeLeave: function(el) {
 		var classArr = $(el).attr("class").split(/\s+/);
-		console.log(classArr)
 		for (var i = classArr.length - 1; i >= 0; i--) {
 			if ($.inArray(classArr[i], transitionClassArr) != -1) {
 				console.log(classArr[i])
@@ -73,7 +72,7 @@ Vue.transition('expand', {
 		}, 800)
 	},
 	afterLeave: function(el) {
-
+		Vue.isBack = false;
 	},
 	leaveCancelled: function(el) {
 		// handle cancellation
@@ -90,10 +89,10 @@ var router = new Router({
 })
 
 router.afterEach(function(transition) {
-	console.log(3)
 	var toPath = transition.to.path,
 		index = $.inArray(toPath, g_uri_stack);
-	if (index != -1 && index == g_uri_stack.length - 2) {
+
+	if (index != -1 && toPath == g_uri_stack[g_uri_stack.length - 2]) {
 		g_uri_stack.pop();
 		Vue.isBack = true;
 	} else {
@@ -103,6 +102,14 @@ router.afterEach(function(transition) {
 	if (g_uri_stack[g_uri_stack.length - 1] != toPath) {
 		g_uri_stack.push(toPath)
 	}
+
+		//如果是根目录，则清空路由记录，
+	if (g_uri_stack.length != 1 && toPath == "/") {
+		router.replace(toPath);
+		g_uri_stack = [toPath];
+		// return;
+	}
+	console.log(g_uri_stack)
 })
 
 // routing

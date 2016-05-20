@@ -39,7 +39,7 @@ module.exports = {
 	module: {
 		loaders: [{
 			test: /\.css$/,
-			loader: ExtractTextPlugin.extract("style-loader", "css?sourceMap", "autoprefixer-loader")
+			loader: ExtractTextPlugin.extract("style-loader", 'css-loader?sourceMap!autoprefixer-loader!autoprefixer-loader?{browsers: ["iOS > 7", "Android > 3", "last 3 ChromeAndroid versions"], cascade: false}')
 		}, {
 			test: /\.js$/,
 			loader: "babel-loader",
